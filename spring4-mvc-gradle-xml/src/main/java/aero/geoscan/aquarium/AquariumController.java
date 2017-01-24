@@ -4,13 +4,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-// @RequestMapping("/about")
+
 public class AquariumController {
 
 	private final AquariumService aService;
@@ -28,21 +29,35 @@ public class AquariumController {
 		model.put("msg", aService.getDesc());
 		model.put("coordinatesOfWaterCubes", aService.calculate(null));
 		model.put("selectedCubes", empty);
+		model.put("water", false);
 
 		return "index";
 
 	}
 
-	@RequestMapping(value = "/calculate/{amountOfCubes}", method = RequestMethod.GET)
-	public String calcucale(@PathVariable(value = "amountOfCubes") int[] amountOfCubes, Map<String, Object> model) {
+	// @RequestMapping(value = "/calculate/{amountOfCubes}", method =
+	// RequestMethod.GET)
+	// public String calcucale(@PathVariable(value = "amountOfCubes") int[]
+	// amountOfCubes, Map<String, Object> model) {
+	//
+	// model.put("title", aService.getTitle(""));
+	// model.put("coordinatesOfWaterCubes", aService.calculate(amountOfCubes));
+	// model.put("selectedCubes", amountOfCubes);
+	//
+	// // return "redirect:" + request.getHeader("referer");
+	// return "index";
+	// // return "redirect:";
+	// }
+
+	@RequestMapping(value = "/calc", method = RequestMethod.POST)
+	public String submit(@ModelAttribute("aquarium") AquariumModel aquarium, Map<String, Object> model) {
 
 		model.put("title", aService.getTitle(""));
-		model.put("coordinatesOfWaterCubes", aService.calculate(amountOfCubes));
-		model.put("selectedCubes", amountOfCubes);
+		model.put("coordinatesOfWaterCubes", aService.calculate(aquarium.getAmounts()));
+		model.put("selectedCubes", aquarium.getAmounts());
+		model.put("water", true);
 
-		// return "redirect:" + request.getHeader("referer");
 		return "index";
-		// return "redirect:";
 	}
 
 	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)

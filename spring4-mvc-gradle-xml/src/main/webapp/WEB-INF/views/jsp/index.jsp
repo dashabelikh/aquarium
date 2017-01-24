@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <style> 
-h1,h2, title,p,a, select {
+h1,h2, title,p,a, select, input, form, button {
     font: 100% consolas; 
     text-align: center;
    }
@@ -28,26 +28,28 @@ h1,h2, title,p,a, select {
    text-align: center;
    }
    
-   canvas, .container{
+   canvas, .container, form{
    display: block; 
    margin: 0 auto;
    }     
    
    canvas {
-   border: 2px dotted blue;
+   border: 2px dotted grey;
    }
 </style>
 
-    <spring:url value="/resources/core/css/hello.css" var="helloCss" />
-    <link href="${helloCss}" rel="stylesheet" />
-
+    
     <spring:url value="/resources/core/js/three.js" var="threeJs" />
     <script src="${threeJs}"></script>
     
      <spring:url value="/resources/core/js/OrbitControls.js" var="OrbitControlsJs" />
     <script src="${OrbitControlsJs}"></script>
     
+    
+    
     <script type="text/javascript">
+    
+   
     
    
  
@@ -56,6 +58,8 @@ h1,h2, title,p,a, select {
   
     
     var amountOfCubes = [];
+   
+   
     var coordinates = "${coordinatesOfWaterCubes}";
     
        
@@ -65,13 +69,21 @@ h1,h2, title,p,a, select {
     
     var DrawCubes= function () {
        
-    	 var camera, controls, scene, renderer;
+    	var camera, controls, scene, renderer;
     	
     	
     	var cubes =[];  
+    	
+    	var isWater = false;
                           
+       if("${water}"=="true"){
+    	   isWater = true; 
+       } 
+    	
+       document.getElementById("calc_button").disabled = isWater; 
        
-       if(coordinates!=""){
+       
+       if(isWater!=""){
     	   
     	   document.getElementById('select'+1).options[<c:out value="${selectedCubes[0]}"/>].selected=true;
     	   document.getElementById('select'+2).options[<c:out value="${selectedCubes[1]}"/>].selected=true;
@@ -79,12 +91,16 @@ h1,h2, title,p,a, select {
            document.getElementById('select'+4).options[<c:out value="${selectedCubes[3]}"/>].selected=true;
            document.getElementById('select'+5).options[<c:out value="${selectedCubes[4]}"/>].selected=true;
       
+           
+           
+         
        } 
         
         
             for(var i=1; i<6;i++){
 
                 var selector = document.getElementById('select'+i);
+                
             
                 var index ;
                 if (selector.selectedIndex!=-1){
@@ -93,12 +109,17 @@ h1,h2, title,p,a, select {
                     index= 0;
                 }
                 cubes.push(index);
+                selector.disabled= isWater;
             }
          
         
         amountOfCubes = cubes;
+      
+       // document.getElementById('amountOfCubes').value = amountOfCubes;
+        document.getElementById('amountOfCubes').value = cubes;
+        document.getElementById('amounts').value = cubes;
               
-        document.getElementById("calculate_model").href= window.location.href+"calculate/"+cubes;
+      
     
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xF4F6F7);
@@ -166,6 +187,9 @@ h1,h2, title,p,a, select {
             
             };
             render();       
+            
+            
+          
     };
     
     
@@ -247,7 +271,7 @@ h1,h2, title,p,a, select {
         </div>
     </div>
             <p>
-                <a id="calculate_model" >calculate</a>
+                
                             
   
                  
@@ -255,6 +279,12 @@ h1,h2, title,p,a, select {
             </p>
     
     <footer>
+    <form  id ="amountOfCubes" method="post" modelAttribute="aquarium" action="http://localhost:8080/spring4/calc">
+    <input id ="amounts" name="amounts"  readonly="readonly"/>
+    <button id="calc_button" type="submit">calculate</button><br>
+    
+	</form>
+	
         <p>coordinates for water cubes ${coordinatesOfWaterCubes}</p>
         <p>&copy; Daria, 2017 </p>
     </footer>
