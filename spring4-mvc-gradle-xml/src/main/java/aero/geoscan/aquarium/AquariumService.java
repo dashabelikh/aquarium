@@ -98,9 +98,15 @@ public class AquariumService {
 				for (int preX = x - 1; preX >= 0; preX--) {
 					if (waterProofsX_Left == 1)
 						break;
+					if (!cubes.get(preX).get(0).isWaterproof()) {
+						isLimited = false;
+						break;
+					}
 					waterProofsX_Left += (cubes.get(preX).get(itCube.getY() - 1).isWaterproof()) ? 1 : 0;
 					for (int preY = y - 1; preY >= 1; preY--) {
+
 						if (cubes.get(preX).get(preY - 1).isWaterproof()) {
+							isLimited = true;
 							break;
 						} else {
 							isLimited = false;
@@ -112,17 +118,31 @@ public class AquariumService {
 					waterProofsX_Left = 0;
 
 				// проверяем, есть ли ограничение справа
+				int waterProofsX_Right = 0;
+				isLimited = true;
 				x = itCube.getX();
 
-				int waterProofsX_Right = 0;
-				while (x < amounts.size()) {
+				for (int postX = x + 1; postX <= maxX; postX++) {
 					if (waterProofsX_Right == 1)
 						break;
-					if (!cubes.get(x).get(0).isWaterproof())
+					if (!cubes.get(postX).get(0).isWaterproof()) {
+						isLimited = false;
 						break;
-					waterProofsX_Right += (cubes.get(x).get(itCube.getY() - 1).isWaterproof()) ? 1 : 0;
-					x++;
+					}
+					waterProofsX_Right += (cubes.get(postX).get(itCube.getY() - 1).isWaterproof()) ? 1 : 0;
+					for (int postY = y + 1; postY < maxY; postY++) {
+
+						if (cubes.get(postX).get(postY).isWaterproof()) {
+							isLimited = true;
+							break;
+						} else {
+							isLimited = false;
+						}
+					}
 				}
+
+				if (!isLimited)
+					waterProofsX_Right = 0;
 
 				// проверяем, есть ли ограничение снизу
 				isLimited = true;
@@ -145,9 +165,6 @@ public class AquariumService {
 						}
 					}
 				}
-
-				if (!isLimited)
-					waterProofsY = 0;
 
 				if (!isLimited)
 					waterProofsY = 0;

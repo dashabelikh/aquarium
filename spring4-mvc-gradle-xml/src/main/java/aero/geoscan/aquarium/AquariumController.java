@@ -49,12 +49,13 @@ public class AquariumController {
 	// // return "redirect:";
 	// }
 
-	@RequestMapping(value = "/calc", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("aquarium") AquariumModel aquarium, Map<String, Object> model) {
 
 		model.put("title", aService.getTitle(""));
 		model.put("coordinatesOfWaterCubes", aService.calculate(aquarium.getAmounts()));
 		model.put("selectedCubes", aquarium.getAmounts());
+		model.put("maxX", aquarium.getAmounts().length);
 		model.put("water", true);
 
 		return "index";
