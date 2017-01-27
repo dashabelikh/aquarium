@@ -145,7 +145,7 @@ h1,h2, title,p,a, select, input, form, button {
     </div>
             <p>
                 <a href = "" onClick="clear()"> clear</a>
-                <a><input type="checkbox" id="check_animation" onChange="draw()" onClick="draw()"> animate</a>
+                <!-- <a><input type="checkbox" id="check_animation" onChange="draw()" onClick="draw()"> animate</a> -->
             </p>
     
     <footer>
@@ -154,7 +154,7 @@ h1,h2, title,p,a, select, input, form, button {
     <input id ="amounts" name="amounts" />
     <button id="calc_button" type="submit">calculate</button><br>
 	</form>	
-	    <p>coordinates for water cubes ${coordinatesOfWaterCubes}</p>
+	    <!-- <p>coordinates for water cubes ${coordinatesOfWaterCubes}</p> -->
         <p>&copy; Daria, 2017 </p>
     </footer>  
     </div>
@@ -186,8 +186,7 @@ h1,h2, title,p,a, select, input, form, button {
 	function draw() {
        
     	
-    	    	
-    	var cubes =[];  
+    	amountOfCubes =[];
     	var isWater = false;
                           
         if("${water}"=="true"){
@@ -197,12 +196,18 @@ h1,h2, title,p,a, select, input, form, button {
        document.getElementById("calc_button").disabled = isWater; 
        document.getElementById('amounts').disabled = isWater;
        
+       var sc;
        if(isWater){  
-    	 document.getElementById('select'+1).options[<c:out value="${selectedCubes[0]}"/>].selected=true;
-    	 document.getElementById('select'+2).options[<c:out value="${selectedCubes[1]}"/>].selected=true;
-         document.getElementById('select'+3).options[<c:out value="${selectedCubes[2]}"/>].selected=true;
-         document.getElementById('select'+4).options[<c:out value="${selectedCubes[3]}"/>].selected=true;
-         document.getElementById('select'+5).options[<c:out value="${selectedCubes[4]}"/>].selected=true;
+    	 
+    	 sc ="${selectedCubesString}".split(",")   ;
+    	 
+    	 for(var i=0; i<5;i++){
+    		  var value = sc[i];
+    		  if(value>9){
+    			  value=9;
+    		  }
+    		 document.getElementById('select'+(i+1)).options[value].selected=true;
+    	 }
        } 
        
         for(var i=1; i<6;i++){
@@ -213,20 +218,13 @@ h1,h2, title,p,a, select, input, form, button {
                } else{
                    index=0;
                }
-               cubes.push(index);
+               amountOfCubes.push(index);
                selector.disabled= isWater;
      	 }
-    	  amountOfCubes = cubes;
-    	  
-    	  var sc =cubes;
-          if(isWater){
-        	  sc ="${selectedCubesString}".split(",")   ;
-        	  amountOfCubes = sc;
-          	     	
-          } else{
-        	  amountOfCubes = cubes;
-        	  
-          }
+    	
+         if(isWater){
+        	  amountOfCubes = sc;     	
+          } 
           document.getElementById('amountOfCubes').value = amountOfCubes;
           document.getElementById('amounts').value = amountOfCubes;
       
@@ -239,27 +237,38 @@ h1,h2, title,p,a, select, input, form, button {
        
         
         
-        // var light = new THREE.AmbientLight(0xffffff,0.5);
-       // scene.add(light);
-       // var light1 = new THREE.PointLight(0xffffff,0.5);
-       // scene.add(light1);
+        // lights
+
+        light = new THREE.DirectionalLight( 0xffffff );
+        light.position.set( 1, 1, 1 );
+        scene.add( light );
+
+        light = new THREE.DirectionalLight( 0x002288 );
+        light.position.set( -1, -1, -1 );
+        scene.add( light );
+
+        light = new THREE.AmbientLight( 0x222222 );
+        scene.add( light );
+        
         var cubesContainer = new THREE.Object3D();
         scene.add( cubesContainer );
         
         var geometry = new THREE.BoxGeometry( 1.3, 1.3, 1.3 );
+        var geometryWater = new THREE.BoxGeometry( 1.3, 1.3, 1.3 );
         var material = new THREE.MeshBasicMaterial( { color: 0x566573, wireframe: true, shading: THREE.FlatShading, 
         vertexColors: THREE.VertexColors } );
         
         var material2 = new THREE.MeshBasicMaterial( { color: 0xA9CCE3  ,  shading: THREE.FlatShading, 
-            vertexColors: THREE.VertexColors, transparent: true,  opacity: 0.95 } );
+            vertexColors: THREE.VertexColors } );
         
-       var deltaX=sc.length/2-1;
-       if(sc.lenght % 2!=0){
-    	 //  deltaX+=0,5;
+       var deltaX=amountOfCubes.length/2-1;
+       if(amountOfCubes.length/2 % 2>0){
+        deltaX+=0.5;
        }
+       
         
-        for(var i=0; i<sc.length;i++){
-            for(var j=0; j<sc[i];j++){
+        for(var i=0; i<amountOfCubes.length;i++){
+            for(var j=0; j<amountOfCubes[i];j++){
                 
             	var cube = new THREE.Mesh(geometry, material);
                                        
@@ -272,33 +281,19 @@ h1,h2, title,p,a, select, input, form, button {
                 cubesContainer.add(cube);
             }
         }
-                    
-        // for(var i=-2; i<3;i++){
-        //     for(var j=0; j<cubes[i+2];j++){
-                
-        //     	var cube = new THREE.Mesh(geometry, material);
-                                       
-        //         cube.position.x=i*1.3;
-        //         cube.position.y=j*1.3-1.5;
-                
-                
-        
-        //         cubesContainer.add(cube);
-        //     }
-        // }
-       
+            
 		if(coordinates!=""){
 		 	var coord = coordinates.split(";");
 			for(var i=0; i<coord.length; i++){
-				var cube = new THREE.Mesh( geometry, material2 );
+				var cube = new THREE.Mesh( geometryWater, material2 );
 				
 				
 				
-				geometry.faces[ 8 ].color.setHex( 0x2E4053);
-				geometry.faces[ 9 ].color.setHex( 0x2E4053);
-				geometry.faces[ 11 ].color.setHex( 0x2E4053);
-				geometry.faces[ 10 ].color.setHex( 0x2E4053);
-				geometry.__dirtyColors = true;
+				geometryWater.faces[ 8 ].color.setHex( 0x2E4053);
+				geometryWater.faces[ 9 ].color.setHex( 0x2E4053);
+				geometryWater.faces[ 11 ].color.setHex( 0x2E4053);
+				geometryWater.faces[ 10 ].color.setHex( 0x2E4053);
+				geometryWater.__dirtyColors = true;
               
  		        //   cube.position.x=(coord[i]-2)*1.3;
  		        cube.position.x=(coord[i]-deltaX)*1.3;

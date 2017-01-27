@@ -26,9 +26,9 @@ public class AquariumController {
 
 		int[] empty = { -1, -1, -1, -1, -1 };
 		model.put("title", aService.getTitle(""));
-		model.put("msg", aService.getDesc());
+		// model.put("msg", aService.getDesc());
 		model.put("coordinatesOfWaterCubes", aService.calculate(null));
-		model.put("selectedCubes", empty);
+		// model.put("selectedCubes", empty);
 		model.put("water", false);
 
 		return "index";
@@ -60,9 +60,9 @@ public class AquariumController {
 			selectedCubes += i + ",";
 		}
 
-		model.put("selectedCubes", aquarium.getAmounts());
+		// model.put("selectedCubes", aquarium.getAmounts());
 		model.put("selectedCubesString", selectedCubes);
-		model.put("maxX", aquarium.getAmounts().length);
+		// model.put("maxX", aquarium.getAmounts().length);
 		model.put("water", true);
 
 		return "index";
@@ -75,7 +75,7 @@ public class AquariumController {
 		model.setViewName("index");
 
 		model.addObject("title", aService.getTitle(name));
-		model.addObject("msg", aService.getDesc());
+		// model.addObject("msg", aService.getDesc());
 
 		return model;
 
