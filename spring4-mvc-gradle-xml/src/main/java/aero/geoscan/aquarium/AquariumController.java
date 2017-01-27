@@ -54,7 +54,14 @@ public class AquariumController {
 
 		model.put("title", aService.getTitle(""));
 		model.put("coordinatesOfWaterCubes", aService.calculate(aquarium.getAmounts()));
+
+		String selectedCubes = "";
+		for (int i : aquarium.getAmounts()) {
+			selectedCubes += i + ",";
+		}
+
 		model.put("selectedCubes", aquarium.getAmounts());
+		model.put("selectedCubesString", selectedCubes);
 		model.put("maxX", aquarium.getAmounts().length);
 		model.put("water", true);
 

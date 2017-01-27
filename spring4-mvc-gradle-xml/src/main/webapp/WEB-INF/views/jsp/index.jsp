@@ -46,146 +46,8 @@ h1,h2, title,p,a, select, input, form, button {
     <script src="${OrbitControlsJs}"></script>
     
     
-    
-    <script type="text/javascript">
-    
-    
-    function clear(){
-    	
-    }
-    // model.addAttribute("someObject", new Login("uname","pass"))
-    // var user_pass = ${someObject.pass};
+   
  
-    var amountOfCubes = [];
-    var coordinates = "${coordinatesOfWaterCubes}";
-    
-    var DrawCubes= function () {
-       
-    	var camera, controls, scene, renderer;
-    	    	
-    	var cubes =[];  
-    	var isWater = false;
-                          
-       if("${water}"=="true"){
-    	   isWater = true; 
-       } 
-    	
-       document.getElementById("calc_button").disabled = isWater; 
-       
-       
-       if(isWater){
-    	 
-    	 document.getElementById('select'+1).options[<c:out value="${selectedCubes[0]}"/>].selected=true;
-    	 document.getElementById('select'+2).options[<c:out value="${selectedCubes[1]}"/>].selected=true;
-         document.getElementById('select'+3).options[<c:out value="${selectedCubes[2]}"/>].selected=true;
-         document.getElementById('select'+4).options[<c:out value="${selectedCubes[3]}"/>].selected=true;
-         document.getElementById('select'+5).options[<c:out value="${selectedCubes[4]}"/>].selected=true;
-       } 
-       
-        for(var i=1; i<6;i++){
-
-               var selector = document.getElementById('select'+i);             
-               var index ;
-               if (selector.selectedIndex!=-1){
-                   index=selector.options[selector.selectedIndex].index;
-               } else{
-                   index=0;
-               }
-               cubes.push(index);
-               selector.disabled= isWater;
-     	 }
-    	  amountOfCubes = cubes;
-       
-      
-        document.getElementById('amountOfCubes').value = cubes;
-        document.getElementById('amounts').value = cubes;
-    
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xF4F6F7);
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-       // var light = new THREE.AmbientLight(0xffffff,0.5);
-       // scene.add(light);
-       // var light1 = new THREE.PointLight(0xffffff,0.5);
-       // scene.add(light1);
-
-        var cubesContainer = new THREE.Object3D();
-        scene.add( cubesContainer );
-        
-        var geometry = new THREE.BoxGeometry( 1.3, 1.3, 1.3 );
-        var material = new THREE.MeshBasicMaterial( { color: 0x566573, wireframe: true, shading: THREE.FlatShading, 
-        vertexColors: THREE.VertexColors } );
-        
-        var material2 = new THREE.MeshBasicMaterial( { color: 0xA9CCE3  ,  shading: THREE.FlatShading, 
-            vertexColors: THREE.VertexColors, transparent: true,  opacity: 0.95 } );
-                    
-        for(var i=-2; i<3;i++){
-            for(var j=0; j<cubes[i+2];j++){
-                
-            	var cube = new THREE.Mesh(geometry, material);
-                                       
-                cube.position.x=i*1.3;
-                cube.position.y=j*1.3-1.5;
-                
-                
-        
-                cubesContainer.add(cube);
-            }
-        }
-       
-		if(coordinates!=""){
-		 	var coord = coordinates.split(";");
-			for(var i=0; i<coord.length; i++){
-				var cube = new THREE.Mesh( geometry, material2 );
-				
-				
-				geometry.faces[ 8 ].color.setHex( 0x2E4053);
-				geometry.faces[ 9 ].color.setHex( 0x2E4053);
-				geometry.faces[ 11 ].color.setHex( 0x2E4053);
-				geometry.faces[ 10 ].color.setHex( 0x2E4053);
-				geometry.__dirtyColors = true;
-              
- 		        cube.position.x=(coord[i]-2)*1.3;
-                i++;
-                
-                cube.position.y=(coord[i]-1)*1.3-1.5;
-                
-               // cube.geometry.faces[ 5 ].color.setHex( 0x000000 ); 
-                cubesContainer.add(cube);
-                
-               
-			}
-        }
-            
-        renderer = new THREE.WebGLRenderer({canvas:document.getElementById('glcanvas'), antialias: true});
-                        
-        camera.position.z = 6;
-        
-        // controls = new THREE.TrackballControls( camera );
-        // controls.damping = 0.2;
-        // controls.addEventListener( 'change', render );
-
-        var render = function () {
-                if(document.getElementById("check_animation").checked){
-                    requestAnimationFrame( render );
-                }
-                //cubesContainer.rotation.x += 0.01;
-                cubesContainer.rotation.y += 0.008;
-
-                renderer.render(scene, camera);
-               // controls.update();
-            
-         };
-         render();        
-    };
-    
-    
-    
-        
-</script>
-<!-- 
-<spring:url value="/resources/core/js/OrbitControls.js" var="orbitJs" />
-<script src="${orbitJs}"></script>
--->
 
 
 
@@ -216,6 +78,12 @@ h1,h2, title,p,a, select, input, form, button {
                  <option> One </option>
                  <option> Two </option>
                  <option> Three </option>
+                 <option> Four </option>
+                 <option> Five </option>
+                 <option> Six </option>
+                 <option> Seven </option>
+                 <option> Eight </option>
+                 <option> Nine </option>
             </select>
         </div>
         <div class="col-md-4">
@@ -225,6 +93,12 @@ h1,h2, title,p,a, select, input, form, button {
                  <option> One </option>
                  <option> Two </option>
                  <option> Three </option>
+                 <option> Four </option>
+                 <option> Five </option>
+                 <option> Six </option>
+                 <option> Seven </option>
+                 <option> Eight </option>
+                 <option> Nine </option>
             </select>
         </div>
         <div class="col-md-4">
@@ -234,6 +108,12 @@ h1,h2, title,p,a, select, input, form, button {
                  <option> One </option>
                  <option> Two </option>
                  <option> Three </option>
+                 <option> Four </option>
+                 <option> Five </option>
+                 <option> Six </option>
+                 <option> Seven </option>
+                 <option> Eight </option>
+                 <option> Nine </option>
             </select>
             
         </div>
@@ -244,6 +124,12 @@ h1,h2, title,p,a, select, input, form, button {
                  <option> One </option>
                  <option> Two </option>
                  <option> Three </option>
+                 <option> Four </option>
+                 <option> Five </option>
+                 <option> Six </option>
+                 <option> Seven </option>
+                 <option> Eight </option>
+                 <option> Nine </option>
             </select>
         </div>
         <div class="col-md-4">
@@ -253,6 +139,12 @@ h1,h2, title,p,a, select, input, form, button {
                  <option> One </option>
                  <option> Two </option>
                  <option> Three </option>
+                 <option> Four </option>
+                 <option> Five </option>
+                 <option> Six </option>
+                 <option> Seven </option>
+                 <option> Eight </option>
+                 <option> Nine </option>
             </select>
         </div>
     </div>
@@ -266,11 +158,183 @@ h1,h2, title,p,a, select, input, form, button {
     <form  id ="amountOfCubes" method="post" modelAttribute="aquarium" >
     <input id ="amounts" name="amounts" />
     <button id="calc_button" type="submit">calculate</button><br>
-	</form>
-	
+	</form>	
 	    <p>coordinates for water cubes ${coordinatesOfWaterCubes}</p>
         <p>&copy; Daria, 2017 </p>
     </footer>
+ 
+  <script type="text/javascript">
+    
+    
+    function clear(){
+    	
+    }
+    // model.addAttribute("someObject", new Login("uname","pass"))
+    // var user_pass = ${someObject.pass};
+ 
+    var amountOfCubes = [];
+    var coordinates = "${coordinatesOfWaterCubes}";
+    
+    var DrawCubes= function () {
+       
+    	var camera, controls, scene, renderer;
+    	    	
+    	var cubes =[];  
+    	var isWater = false;
+                          
+       if("${water}"=="true"){
+    	   isWater = true; 
+       } 
+    	
+       document.getElementById("calc_button").disabled = isWater; 
+       document.getElementById('amounts').disabled = isWater;
+       
+       if(isWater){
+    	 
+    	  
+    	   
+    	 document.getElementById('select'+1).options[<c:out value="${selectedCubes[0]}"/>].selected=true;
+    	 document.getElementById('select'+2).options[<c:out value="${selectedCubes[1]}"/>].selected=true;
+         document.getElementById('select'+3).options[<c:out value="${selectedCubes[2]}"/>].selected=true;
+         document.getElementById('select'+4).options[<c:out value="${selectedCubes[3]}"/>].selected=true;
+         document.getElementById('select'+5).options[<c:out value="${selectedCubes[4]}"/>].selected=true;
+       } 
+       
+        for(var i=1; i<6;i++){
+               var selector = document.getElementById('select'+i);             
+               var index ;
+               if (selector.selectedIndex!=-1){
+                   index=selector.options[selector.selectedIndex].index;
+               } else{
+                   index=0;
+               }
+               cubes.push(index);
+               selector.disabled= isWater;
+     	 }
+    	  amountOfCubes = cubes;
+    	  
+    	  var sc =cubes;
+          if(isWater){
+        	  sc ="${selectedCubesString}".split(",")   ;
+        	  amountOfCubes = sc;
+          	     	
+          } else{
+        	  amountOfCubes = cubes;
+        	  
+          }
+          document.getElementById('amountOfCubes').value = amountOfCubes;
+          document.getElementById('amounts').value = amountOfCubes;
+      
+       
+    
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xF4F6F7);
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+       // var light = new THREE.AmbientLight(0xffffff,0.5);
+       // scene.add(light);
+       // var light1 = new THREE.PointLight(0xffffff,0.5);
+       // scene.add(light1);
+        var cubesContainer = new THREE.Object3D();
+        scene.add( cubesContainer );
+        
+        var geometry = new THREE.BoxGeometry( 1.3, 1.3, 1.3 );
+        var material = new THREE.MeshBasicMaterial( { color: 0x566573, wireframe: true, shading: THREE.FlatShading, 
+        vertexColors: THREE.VertexColors } );
+        
+        var material2 = new THREE.MeshBasicMaterial( { color: 0xA9CCE3  ,  shading: THREE.FlatShading, 
+            vertexColors: THREE.VertexColors, transparent: true,  opacity: 0.95 } );
+        
+       
+        
+        for(var i=0; i<sc.length;i++){
+            for(var j=0; j<sc[i];j++){
+                
+            	var cube = new THREE.Mesh(geometry, material);
+                                       
+                cube.position.x=i*1.3;
+                cube.position.y=j*1.3-1.5;
+                
+                
+        
+                cubesContainer.add(cube);
+            }
+        }
+                    
+        // for(var i=-2; i<3;i++){
+        //     for(var j=0; j<cubes[i+2];j++){
+                
+        //     	var cube = new THREE.Mesh(geometry, material);
+                                       
+        //         cube.position.x=i*1.3;
+        //         cube.position.y=j*1.3-1.5;
+                
+                
+        
+        //         cubesContainer.add(cube);
+        //     }
+        // }
+       
+		if(coordinates!=""){
+		 	var coord = coordinates.split(";");
+			for(var i=0; i<coord.length; i++){
+				var cube = new THREE.Mesh( geometry, material2 );
+				
+				
+				geometry.faces[ 8 ].color.setHex( 0x2E4053);
+				geometry.faces[ 9 ].color.setHex( 0x2E4053);
+				geometry.faces[ 11 ].color.setHex( 0x2E4053);
+				geometry.faces[ 10 ].color.setHex( 0x2E4053);
+				geometry.__dirtyColors = true;
+              
+ 		     //   cube.position.x=(coord[i]-2)*1.3;
+ 		       cube.position.x=(coord[i])*1.3;
+                i++;
+                
+            //    cube.position.y=(coord[i]-1)*1.3-1.5;
+                cube.position.y=(coord[i]-1)*1.3-1.5;
+                
+               // cube.geometry.faces[ 5 ].color.setHex( 0x000000 ); 
+                cubesContainer.add(cube);
+                
+               
+			}
+        }
+            
+        renderer = new THREE.WebGLRenderer({canvas:document.getElementById('glcanvas'), antialias: true});
+                        
+        camera.position.z = 8;
+        camera.position.x = amountOfCubes.length/2;
+        camera.position.y = 2;
+        
+        // controls = new THREE.TrackballControls( camera );
+        // controls.damping = 0.2;
+        // controls.addEventListener( 'change', render );
+        var render = function () {
+                if(document.getElementById("check_animation").checked){
+                    requestAnimationFrame( render );
+                }
+                //cubesContainer.rotation.x += 0.01;
+                cubesContainer.rotation.y += 0.008;
+                renderer.render(scene, camera);
+               // controls.update();
+            
+         };
+         render();        
+    };
+    
+    
+    
+        
+</script>
+ 
+    
+    
+<!-- 
+<spring:url value="/resources/core/js/OrbitControls.js" var="orbitJs" />
+<script src="${orbitJs}"></script>
+-->
+    
+    
 </div>
 </body>
 </html>

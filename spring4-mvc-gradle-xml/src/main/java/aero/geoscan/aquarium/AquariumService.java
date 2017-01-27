@@ -130,9 +130,10 @@ public class AquariumService {
 						break;
 					}
 					waterProofsX_Right += (cubes.get(postX).get(itCube.getY() - 1).isWaterproof()) ? 1 : 0;
-					for (int postY = y + 1; postY < maxY; postY++) {
+					// for (int postY = y + 1; postY < maxY; postY++) {
+					for (int preY = y - 1; preY >= 1; preY--) {
 
-						if (cubes.get(postX).get(postY).isWaterproof()) {
+						if (cubes.get(postX).get(preY).isWaterproof()) {
 							isLimited = true;
 							break;
 						} else {
