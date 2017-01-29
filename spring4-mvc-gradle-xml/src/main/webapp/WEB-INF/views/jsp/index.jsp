@@ -203,6 +203,9 @@ h1,h2, title,p,a, select, input, form, button {
     	 
     	 for(var i=0; i<5;i++){
     		  var value = sc[i];
+    		  if (typeof variable === 'undefined' || value === null){
+    			  value = 0;
+    		  }
     		  if(value>9){
     			  value=9;
     		  }
