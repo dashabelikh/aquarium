@@ -1,7 +1,9 @@
-package aero.geoscan.aquarium;
+package io.prototype.aquarium.controller;
 
 import java.util.Map;
 
+import io.prototype.aquarium.model.*;
+import io.prototype.aquarium.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-
 public class AquariumController {
 
 	private final AquariumService aService;

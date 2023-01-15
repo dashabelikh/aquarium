@@ -1,0 +1,30 @@
+h1,h2, title,p,a, select, input, form, button {
+    font: 100% consolas;
+    text-align: center;
+}
+
+h3{
+    font: 80% consolas;
+    text-align: center;
+}
+
+.col-md-4{
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.row{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+canvas, .container, form{
+    display: block;
+    margin: 0 auto;
+}
+
+canvas {
+    border: 2px dotted grey;
+}

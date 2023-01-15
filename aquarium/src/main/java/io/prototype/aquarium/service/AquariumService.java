@@ -1,36 +1,26 @@
-package aero.geoscan.aquarium;
+package io.prototype.aquarium.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.prototype.aquarium.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
 public class AquariumService {
+
 	public String getDesc() {
-
 		return "AQUARIUM";
-
 	}
 
 	public String getTitle(String name) {
-
-		if (StringUtils.isEmpty(name)) {
-			return getDesc();
-		} else {
-			return "Hello, " + name + ". This is an " + getDesc();
-		}
-
+		return (StringUtils.isEmpty(name)) ? getDesc()
+				:"Hello, " + name + ". This is an " + getDesc();
 	}
 
 	public String calculate(int[] amountOfCubes) {
-
-		if (amountOfCubes == null)
-			return "";
-
-		return calculateWater(amountOfCubes);
-
+		return (amountOfCubes == null) ? "" : calculateWater(amountOfCubes);
 	}
 
 	private String calculateWater(int[] cubeAmmount) {
@@ -40,25 +30,18 @@ public class AquariumService {
 		if (cubeAmmount == null)
 			return coordinates;
 
-		List<Integer> amounts = new ArrayList<Integer>();
-		List<List<Cube>> cubes = new ArrayList<List<Cube>>();
+		List<Integer> amounts = new ArrayList<>();
+		List<List<Cube>> cubes = new ArrayList<>();
 
 		for (int i : cubeAmmount)
 			amounts.add(i);
-		// System.out.print(i + " ");
-		// System.out.print("\n");
 
-		int maxX = amounts.size() - 1;// x изменяется от 0 до 4
-		int maxY = amounts.stream().mapToInt(i -> i).max().getAsInt(); // y
-																		// изменяется
-																		// от
-																		// 1
-																		// до
-																		// 3
+		int maxX = amounts.size() - 1;
+		int maxY = amounts.stream().mapToInt(i -> i).max().getAsInt();
 		int currentX = 0;
 		for (int amount : amounts) {
 
-			List<Cube> list = new ArrayList<Cube>();
+			List<Cube> list = new ArrayList<>();
 			for (int currentY = 1; currentY <= maxY; currentY++) {
 
 				boolean isWaterproof = true;
@@ -68,8 +51,6 @@ public class AquariumService {
 					isWaterproof = false;
 
 				list.add(new Cube(currentX, currentY, isWaterproof));
-				// System.out.println(currentX + " " + currentY + " " +
-				// isWaterproof);
 			}
 			cubes.add(list);
 			currentX++;
@@ -78,23 +59,19 @@ public class AquariumService {
 		for (List<Cube> it : cubes) {
 
 			for (Cube itCube : it) {
-				if (itCube.isWaterproof()) // пропускаем все водонепроницаемые
-											// блоки
+				if (itCube.isWaterproof())
 					continue;
 
 				int x = itCube.getX();
 				int y = itCube.getY();
 
-				if (x == 0) // если блок первый слева, то он не
-					// может быть
-					// наполнен водой
+				if (x == 0)
 					continue;
 
 				int waterProofsX_Left = 0;
 
 				boolean isLimited = true;
 
-				// проверяем, есть ли ограничение слева
 				for (int preX = x - 1; preX >= 0; preX--) {
 					if (waterProofsX_Left == 1)
 						break;
@@ -117,7 +94,6 @@ public class AquariumService {
 				if (!isLimited)
 					waterProofsX_Left = 0;
 
-				// проверяем, есть ли ограничение справа
 				int waterProofsX_Right = 0;
 				isLimited = true;
 				x = itCube.getX();
@@ -145,7 +121,7 @@ public class AquariumService {
 				if (!isLimited)
 					waterProofsX_Right = 0;
 
-				// проверяем, есть ли ограничение снизу
+
 				isLimited = true;
 				x = itCube.getX();
 				y = itCube.getY();

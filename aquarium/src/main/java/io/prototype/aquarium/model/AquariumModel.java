@@ -1,4 +1,4 @@
-package aero.geoscan.aquarium;
+package io.prototype.aquarium.model;
 
 public class AquariumModel {
 

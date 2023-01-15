@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+    implementation "javax.servlet:jstl"
+
+}

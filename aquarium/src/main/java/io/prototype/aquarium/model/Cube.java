@@ -1,12 +1,5 @@
-package aero.geoscan.aquarium;
+package io.prototype.aquarium.model;
 
-/**
- * 
- * Single Cube
- * 
- * @author Daria
- *
- */
 public class Cube {
 
 	private int x; // column
